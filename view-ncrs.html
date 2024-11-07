@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View NCR Reports - NCR Management System</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+    <link rel="stylesheet" href="view.css">
+    <link rel="stylesheet" href="index.css">
+</head>
+<body>
+    <div class="dashboard-container">
+        <nav class="sidebar">
+            <div class="sidebar-header">
+                <img src="Crossfire Logo - no bkgd.png" alt="NCR Management System Logo" class="logo">
+                <h2>NCR Management</h2>
+            </div>
+            <ul class="sidebar-menu">
+                <li><a href="index.html"><i class="fas fa-home"></i> Dashboard</a></li>
+                <li><a href="create-ncr.html"><i class="fas fa-plus-circle"></i> Create NCR</a></li>
+                <li class="active"><a href="view-ncrs.html"><i class="fas fa-list"></i> View NCRs</a></li>
+              
+            </ul>
+        </nav>
+        <main class="content">
+            <h1>View NCR Reports</h1>
+            <div class="filter-section">
+                <input type="text" id="searchInput" placeholder="Search NCRs..." onkeyup="filterNCRs()">
+                <select id="statusFilter" onchange="filterNCRs()">
+                    <option value="">All Statuses</option>
+                    <option value="open">Open</option>
+                    <option value="in_progress">In Progress</option>
+                    <option value="closed">Closed</option>
+                </select>
+            </div>
+
+            <!-- Loading Message -->
+            <div id="loadingMessage" class="loading-message" style="display:none;">
+                Loading NCR data...
+            </div>
+
+            <!-- NCR Table -->
+            <table id="ncrTable">
+                <thead>
+                    <tr>
+                        <th>NCR Number</th>
+                        <th>Date</th>
+                        <th>Defect Type</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="ncrTableBody">
+                    <!-- NCR data will be populated here by JavaScript -->
+                </tbody>
+            </table>
+        </main>
+    </div>
+
+    <script>
+        window.onload = function() {
+            loadNCRData();  // Load the data when the page is loaded
+        }
+
+        // Global variable to store NCR data
+        let ncrData = [];
+
+        // Function to load NCR data (simulating fetching from a server)
+        function loadNCRData() {
+            const loadingMessage = document.getElementById('loadingMessage');
+            loadingMessage.style.display = 'block';
+
+            setTimeout(() => {
+                try {
+                    // Dummy data for demonstration purposes
+                    ncrData = [
+    { ncr_number: 'NCR-001', date: '2024-11-01', defect_type: 'Dimensional', status: 'Open', defect_description: 'Incorrect dimensions on part' },
+    { ncr_number: 'NCR-002', date: '2024-11-02', defect_type: 'Visual', status: 'In Progress', defect_description: 'Color mismatch on coating' },
+    { ncr_number: 'NCR-003', date: '2024-11-03', defect_type: 'Functional', status: 'Open', defect_description: 'Non-operational part after assembly' },
+    { ncr_number: 'NCR-004', date: '2024-11-04', defect_type: 'Dimensional', status: 'Closed', defect_description: 'Part meets specifications after rework' },
+    { ncr_number: 'NCR-005', date: '2024-11-05', defect_type: 'Visual', status: 'Closed', defect_description: 'Surface defect corrected by polishing' },
+    { ncr_number: 'NCR-006', date: '2024-11-06', defect_type: 'Functional', status: 'Open', defect_description: 'Wiring fault in assembly' },
+    { ncr_number: 'NCR-007', date: '2024-11-07', defect_type: 'Dimensional', status: 'Closed', defect_description: 'Tolerance issue resolved' },
+    { ncr_number: 'NCR-008', date: '2024-11-08', defect_type: 'Visual', status: 'In Progress', defect_description: 'Paint blemish on part surface' },
+    { ncr_number: 'NCR-009', date: '2024-11-09', defect_type: 'Functional', status: 'Open', defect_description: 'Motor failure after testing' },
+    { ncr_number: 'NCR-010', date: '2024-11-10', defect_type: 'Dimensional', status: 'Open', defect_description: 'Part is out of alignment' },
+    { ncr_number: 'NCR-011', date: '2024-11-11', defect_type: 'Visual', status: 'Closed', defect_description: 'Surface scratches removed by buffing' },
+    { ncr_number: 'NCR-012', date: '2024-11-12', defect_type: 'Functional', status: 'In Progress', defect_description: 'Failure to meet power specifications' },
+    { ncr_number: 'NCR-013', date: '2024-11-13', defect_type: 'Dimensional', status: 'Closed', defect_description: 'Rework completed and inspected' },
+    { ncr_number: 'NCR-014', date: '2024-11-14', defect_type: 'Visual', status: 'Open', defect_description: 'Discoloration on external part' },
+    { ncr_number: 'NCR-015', date: '2024-11-15', defect_type: 'Functional', status: 'In Progress', defect_description: 'Assembly failure in final test' },
+    { ncr_number: 'NCR-016', date: '2024-11-16', defect_type: 'Dimensional', status: 'Open', defect_description: 'Out of tolerance for size' },
+    { ncr_number: 'NCR-017', date: '2024-11-17', defect_type: 'Visual', status: 'Closed', defect_description: 'Defects removed after polishing' },
+    { ncr_number: 'NCR-018', date: '2024-11-18', defect_type: 'Functional', status: 'Closed', defect_description: 'Repaired motor successfully tested' },
+    { ncr_number: 'NCR-019', date: '2024-11-19', defect_type: 'Dimensional', status: 'In Progress', defect_description: 'Alignment issue persists after rework' }
+];
+
+
+
+                    loadingMessage.style.display = 'none';  // Hide loading message
+                    filterNCRs();  // Apply filtering after data is loaded
+
+                } catch (error) {
+                    loadingMessage.style.display = 'none';  // Hide loading message
+                    document.getElementById('errorMessage').style.display = 'block';  // Show error message if data loading fails
+                }
+            }, 1000); // Simulate a 1-second delay
+        }
+
+        // Function to display NCR details based on selected index
+        function filterNCRs() {
+            const searchInput = document.getElementById('searchInput').value.toLowerCase();
+            const statusFilter = document.getElementById('statusFilter').value;
+
+            const filteredRecords = ncrData.filter(record => {
+                const matchesSearch = record.ncr_number.toLowerCase().includes(searchInput) ||
+                                      record.defect_type.toLowerCase().includes(searchInput) ||
+                                      record.defect_description.toLowerCase().includes(searchInput);
+                const matchesStatus = statusFilter ? record.status.toLowerCase() === statusFilter : true;
+                return matchesSearch && matchesStatus;
+            });
+
+            const tableBody = document.getElementById('ncrTableBody');
+            tableBody.innerHTML = '';  // Clear existing rows
+
+            if (filteredRecords.length === 0) {
+                tableBody.innerHTML = '<tr><td colspan="5">No matching NCRs found.</td></tr>';
+            } else {
+                filteredRecords.forEach(record => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${record.ncr_number}</td>
+                        <td>${record.date}</td>
+                        <td>${record.defect_type}</td>
+                        <td>${record.status}</td>
+                        <td>
+                            <button onclick="viewNCRDetails('${record.ncr_number}')">View</button>
+                            <button onclick="editNCRDetails('${record.ncr_number}')">Edit</button>
+                        </td>
+                    `;
+                    tableBody.appendChild(row);
+                });
+            }
+        }
+
+        // Function to handle viewing an NCR's details
+        function viewNCRDetails(ncrNumber) {
+            // Simulated data retrieval
+    const record = { // Example record data (replace with actual data source)
+        ncr_number: ncrNumber,
+        description: "Example description",
+        status: "Open",
+        date: "2024-11-06",
+        priority: "High"
+    };
+    
+    // Display all information in an alert
+    const details = `
+        NCR Number: ${record.ncr_number}
+        Description: ${record.description}
+        Status: ${record.status}
+        Date: ${record.date}
+        Priority: ${record.priority}
+    `;
+    alert(details);
+}
+
+        // Function to handle editing an NCR's details
+        function editNCRDetails(ncrNumber) {
+          // Redirect to edit page with NCR number in query parameter
+    window.location.href = `edit-ncr.html?ncrNumber=${ncrNumber}`;
+}
+
+const ncrDescription = localStorage.getItem('ncrDescription');
+    
+    if (ncrDescription) {
+        document.getElementById('ncrDetails').textContent = 'NCR Description: ' + ncrDescription;
+    } else {
+        document.getElementById('ncrDetails').textContent = 'No NCR data available.';
+    }
+
+    </script>
+</body>
+</html>

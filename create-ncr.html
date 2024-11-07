@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Non-Conformance Report (NCR)</title>
+    <style>
+        :root {
+            --primary-color: #434547;
+            --secondary-color: #8d9192;
+            --background-color: #f8f9fa;
+            --border-color: #e9ecef;
+            --success-color: #2ecc71;
+            --error-color: #e74c3c;
+            --engineering-bg-color: #dfe6e9; /* Darker background for Engineering */
+            --quality-rep-bg-color: #f2f4f7; /* Lighter background for Quality Representative */
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--background-color);
+            color: var(--primary-color);
+            padding: 20px;
+            display: flex;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            flex-grow: 1;
+        }
+
+        .header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .form-section {
+            margin-bottom: 25px;
+            padding: 20px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+        }
+
+        /* Styling for section headers */
+        .form-section h3 {
+            color: var(--primary-color);
+            margin-bottom: 20px;
+        }
+
+        .form-section.engineering {
+            background-color: var(--engineering-bg-color); /* Darker background for Engineering */
+        }
+
+        .form-section.quality-representative {
+            background-color: var(--quality-rep-bg-color); /* Lighter background for Quality Representative */
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            width: 100%;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            font-weight: 600;
+            color: var(--primary-color);
+            margin-bottom: 8px;
+        }
+
+        input[type="text"],
+        input[type="number"],
+        input[type="date"],
+        textarea,
+        select {
+            padding: 10px;
+            border: 2px solid var(--border-color);
+            border-radius: 6px;
+            font-size: 14px;
+            width: 100%;
+        }
+
+        select {
+            appearance: none;
+        }
+
+        input:focus,
+        textarea:focus,
+        select:focus {
+            outline: none;
+            border-color: var(--secondary-color);
+            box-shadow: 0 0 5px rgba(52, 152, 219, 0.3);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        table, th, td {
+            border: 1px solid var(--border-color);
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+
+        th {
+            background-color: var(--secondary-color);
+            color: white;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        tr:hover {
+            background-color: #dcdcdc;
+        }
+
+        button {
+            background-color: var(--secondary-color);
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 20px;
+            width: 100%;
+        }
+
+        button:hover {
+            background-color: #2980b9;
+        }
+
+        .required::after {
+            content: "*";
+            color: var(--error-color);
+        }
+
+        .checkbox-group {
+            display: flex;
+            gap: 20px;
+        }
+
+        input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+        }
+
+        /* Sidebar styling */
+        .sidebar {
+            width: 250px;
+            background-color: var(--primary-color);
+            color: #d4d6d7;
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
+            padding: 20px;
+        }
+
+        .sidebar-header {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .sidebar-header .logo {
+            width: 100px;
+            height: auto;
+        }
+
+        .sidebar-menu {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .sidebar-menu li {
+            margin: 20px 0;
+        }
+
+        .sidebar-menu a {
+            color: white;
+            text-decoration: none;
+            font-size: 18px;
+        }
+
+        .sidebar-menu a:hover {
+            text-decoration: underline;
+        }
+
+        .sidebar-menu li.active a {
+            color: var(--secondary-color);
+        }
+
+        /* Responsive design for smaller screens */
+        @media (max-width: 1000px) {
+            body {
+                flex-direction: column;
+            }
+
+            .container {
+                margin-left: 0;
+            }
+
+            .sidebar {
+                width: 100%;
+                height: auto;
+                position: relative;
+                margin-bottom: 20px;
+            }
+           
+}
+        
+    </style>
+</head>
+<body>
+    <nav class="sidebar">
+        <div class="sidebar-header">
+            <img src="Crossfire Logo - no bkgd.png" alt="NCR Management System Logo" class="logo" style="width: 300px; height: auto;">
+            <h2>NCR Management</h2>
+        </div>
+        <ul class="sidebar-menu">
+            <li><a href="index.html"><i class="fas fa-home"></i> Dashboard</a></li>
+            <li><a href="create-ncr.html"><i class="fas fa-plus-circle"></i> Create NCR</a></li>
+            <li class="active"><a href="view-ncrs.html"><i class="fas fa-list"></i> View NCRs</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <div class="header">
+            <h2>Non-Conformance Report (NCR)</h2>
+            <p>Document No.: OPS-00011</p>
+        </div>
+    
+        <form id="ncrForm">
+            <!-- Section 1: Quality Representative -->
+            <div class="form-section quality-representative">
+                <h3>1. Quality Representative</h3>
+    
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="supplierName" class="required">Supplier Name:</label>
+                        <input type="text" id="supplierName" name="supplierName" required placeholder="Enter Supplier Name" />
+                    </div>
+                    <div class="form-group">
+                        <label for="ncrNo" class="required">NCR No.:</label>
+                        <input type="text" id="ncrNo" name="ncrNo" required readonly placeholder="Auto-generated" />
+                    </div>
+                </div>
+    
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="poOrProdNo">PO or Prod. No.:</label>
+                        <input type="text" id="poOrProdNo" name="poOrProdNo" placeholder="Enter PO or Prod. No." />
+                    </div>
+                    <div class="form-group">
+                        <label for="wip">WIP (Production Order):</label>
+                        <input type="text" id="wip" name="wip" placeholder="Enter WIP if applicable" />
+                    </div>
+                </div>
+    
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="salesOrderNo">Sales Order No.:</label>
+                        <input type="text" id="salesOrderNo" name="salesOrderNo" placeholder="Enter Sales Order No." />
+                    </div>
+                    <div class="form-group">
+                        <label for="itemDescription" class="required">Description of Item (including SAP No.):</label>
+                        <input type="text" id="itemDescription" name="itemDescription" required placeholder="Describe item including SAP No." />
+                    </div>
+                </div>
+    
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="quantityReceived" class="required">Quantity Received:</label>
+                        <input type="number" id="quantityReceived" name="quantityReceived" required placeholder="Enter Quantity Received" min="0" />
+                    </div>
+                    <div class="form-group">
+                        <label for="quantityDefective" class="required">Quantity Defective:</label>
+                        <input type="number" id="quantityDefective" name="quantityDefective" required placeholder="Enter Quantity Defective" min="0" />
+                    </div>
+                </div>
+    
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="defectDescription" class="required">Description of Defect:</label>
+                        <textarea id="defectDescription" name="defectDescription" required placeholder="Describe the defect in detail"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="defectivePartNo">Defective Part No.:</label>
+                        <input type="text" id="defectivePartNo" name="defectivePartNo" placeholder="Enter Part No. if applicable" />
+                    </div>
+                </div>
+    
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="ncrDate" class="required">NCR Date:</label>
+                        <input type="date" id="ncrDate" name="ncrDate" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="reportType" class="required">Report Type:</label>
+                        <select id="reportType" name="reportType" required>
+                            <option value="internal">Internal</option>
+                            <option value="external">External</option>
+                        </select>
+                    </div>
+                </div>
+    
+                <div class="form-row">
+                    <label for="itemNonconforming">Item marked Nonconforming:</label>
+                    <div>
+                        <input type="radio" id="itemNonconformingYes" name="itemNonconforming" value="yes">
+                        <label for="itemNonconformingYes">Yes</label>
+                        <input type="radio" id="itemNonconformingNo" name="itemNonconforming" value="no">
+                        <label for="itemNonconformingNo">No</label>
+                    </div>
+                </div>
+    
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="qualityRepName">Quality Representative's Name:</label>
+                        <input type="text" id="qualityRepName" name="qualityRepName" placeholder="Enter name of Quality Representative" />
+                    </div>
+                    <div class="form-group">
+                        <label for="qualityRepDate">Date:</label>
+                        <input type="date" id="qualityRepDate" name="qualityRepDate" />
+                    </div>
+                </div>
+            </div>
+    
+            <!-- Section 2: Engineering -->
+            <div class="form-section engineering">
+                <h3>2. Engineering</h3>
+    
+                <div class="form-row">
+                    <p>Review by CF Engineering (indicate disposition):</p>
+                    <div>
+                        <input type="checkbox" id="useAsIs" name="disposition" value="Use As Is">
+                        <label for="useAsIs">Use As Is</label>
+                        <input type="checkbox" id="repair" name="disposition" value="Repair">
+                        <label for="repair">Repair</label>
+                        <input type="checkbox" id="rework" name="disposition" value="Rework">
+                        <label for="rework">Rework</label>
+                        <input type="checkbox" id="scrap" name="disposition" value="Scrap">
+                        <label for="scrap">Scrap</label>
+                    </div>
+                </div>
+    
+                <div class="form-row">
+                    <label for="customerNotification">Does Customer require notification of NCR?</label>
+                    <div>
+                        <input type="radio" id="customerNotificationYes" name="customerNotification" value="yes">
+                        <label for="customerNotificationYes">Yes</label>
+                        <input type="radio" id="customerNotificationNo" name="customerNotification" value="no">
+                        <label for="customerNotificationNo">No</label>
+                    </div>
+                </div>
+    
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="dispositionSequence">Disposition (Work steps required for repair/rework):</label>
+                        <textarea id="dispositionSequence" name="dispositionSequence" placeholder="List work steps required"></textarea>
+                    </div>
+                </div>
+    
+                <div class="form-row">
+                    <label for="drawingUpdate">Does the drawing require updating?</label>
+                    <div>
+                        <input type="radio" id="drawingUpdateYes" name="drawingUpdate" value="yes">
+                        <label for="drawingUpdateYes">Yes</label>
+                        <input type="radio" id="drawingUpdateNo" name="drawingUpdate" value="no">
+                        <label for="drawingUpdateNo">No</label>
+                    </div>
+                </div>
+    
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="engineerName">Name of Engineer:</label>
+                        <input type="text" id="engineerName" name="engineerName" placeholder="Enter Engineer's Name" />
+                    </div>
+                    <div class="form-group">
+                        <label for="engineerDate">Revision Date:</label>
+                        <input type="date" id="engineerDate" name="engineerDate" />
+                    </div>
+                </div>
+            </div>
+    
+            <!-- Section 3: Purchasing -->
+            <div class="form-section purchasing">
+                <h3>3. Purchasing</h3>
+    
+                <div class="form-row">
+                    <p>Purchasing's Preliminary Decision:</p>
+                    <div>
+                        <input type="checkbox" id="returnToSupplier" name="purchasingDecision" value="Return to Supplier">
+                        <label for="returnToSupplier">Return to Supplier</label>
+                        <input type="checkbox" id="reworkInHouse" name="purchasingDecision" value="Rework In-House">
+                        <label for="reworkInHouse">Rework In-House</label>
+                        <input type="checkbox" id="scrapInHouse" name="purchasingDecision" value="Scrap in House">
+                        <label for="scrapInHouse">Scrap in House</label>
+                        <input type="checkbox" id="deferToHBC" name="purchasingDecision" value="Defer to HBC">
+                        <label for="deferToHBC">Defer to HBC Engineering Review</label>
+                    </div>
+                </div>
+    
+                <div class="form-row">
+                    <label for="carRaised">Was a CAR raised?</label>
+                    <div>
+                        <input type="radio" id="carRaisedYes" name="carRaised" value="yes">
+                        <label for="carRaisedYes">Yes</label>
+                        <input type="radio" id="carRaisedNo" name="carRaised" value="no">
+                        <label for="carRaisedNo">No</label>
+                    </div>
+                </div>
+    
+                <div class="form-row">
+                    <label for="followUpRequired">Follow-up Required?</label>
+                    <div>
+                        <input type="radio" id="followUpYes" name="followUpRequired" value="yes">
+                        <label for="followUpYes">Yes</label>
+                        <input type="radio" id="followUpNo" name="followUpRequired" value="no">
+                        <label for="followUpNo">No</label>
+                    </div>
+                </div>
+    
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="operationsManager">Operations Manager:</label>
+                        <input type="text" id="operationsManager" name="operationsManager" placeholder="Enter name of Operations Manager" />
+                    </div>
+                    <div class="form-group">
+                        <label for="managerDate">Date:</label>
+                        <input type="date" id="managerDate" name="managerDate" />
+                    </div>
+                </div>
+    
+                <div class="form-row">
+                    <label for="reInspection">Re-Inspected Acceptable?</label>
+                    <div>
+                        <input type="radio" id="reInspectionYes" name="reInspection" value="yes">
+                        <label for="reInspectionYes">Yes</label>
+                        <input type="radio" id="reInspectionNo" name="reInspection" value="no">
+                        <label for="reInspectionNo">No</label>
+                    </div>
+                </div>
+    
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="inspectorName">Inspector's Name:</label>
+                        <input type="text" id="inspectorName" name="inspectorName" placeholder="Enter Inspector's Name" />
+                    </div>
+                    <div class="form-group">
+                        <label for="inspectionDate">Date:</label>
+                        <input type="date" id="inspectionDate" name="inspectionDate" />
+                    </div>
+                </div>
+    
+                <div class="form-row">
+                    <label for="ncrClosed">NCR Closed:</label>
+                    <div>
+                        <input type="radio" id="ncrClosedYes" name="ncrClosed" value="yes">
+                        <label for="ncrClosedYes">Yes</label>
+                        <input type="radio" id="ncrClosedNo" name="ncrClosed" value="no">
+                        <label for="ncrClosedNo">No</label>
+                    </div>
+                </div>
+            </div>
+    
+            <button type="submit">Submit NCR Form</button>
+        </form>
+    </div>
+    <script>
+        // Function to generate the NCR No. based on the current date (YYYYMMDD format)
+        window.onload = function() {
+            var today = new Date();
+            var year = today.getFullYear();
+            var month = ("0" + (today.getMonth() + 1)).slice(-2); // Ensure 2 digits
+            var day = ("0" + today.getDate()).slice(-2); // Ensure 2 digits
+            var ncrNo = year + month + day;
+
+            // Set the value of the NCR No. input field
+            document.getElementById('ncrNo').value = ncrNo;
+        }
+    </script>
+</body>
+</html>

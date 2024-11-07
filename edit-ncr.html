@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit NCR - NCR Management System</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+    <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="edit.css">
+</head>
+<body>
+    <div class="dashboard-container">
+        <nav class="sidebar">
+            <div class="sidebar-header">
+                <img src="Crossfire Logo - no bkgd.png" alt="NCR Management System Logo" class="logo">
+                <h2>NCR Management</h2>
+            </div>
+            <ul class="sidebar-menu">
+                <li class="active"><a href="#"><i class="fas fa-home"></i> Dashboard</a></li>
+                <li><a href="create-ncr.html"><i class="fas fa-plus-circle"></i> Create NCR</a></li>
+                <li><a href="view-ncrs.html"><i class="fas fa-list"></i> View NCRs</a></li>
+                <li><a href="#analytics"><i class="fas fa-chart-bar"></i> Analytics</a></li>
+                <li><a href="#settings"><i class="fas fa-cog"></i> Settings</a></li>
+            </ul>
+        </nav>
+        <main class="content">
+            <h1>Edit NCR</h1>
+            <form id="editNcrForm">
+                <div class="form-group">
+                    <label for="ncrNumber">NCR Number:</label>
+                    <input type="text" id="ncrNumber" readonly>
+                </div>
+                <div class="form-group">
+                    <label for="date">Date:</label>
+                    <input type="date" id="date" required>
+                </div>
+                <div class="form-group">
+                    <label for="defectType">Defect Type:</label>
+                    <select id="defectType" required>
+                        <option value="">Select Defect Type</option>
+                        <option value="dimensional">Dimensional</option>
+                        <option value="visual">Visual</option>
+                        <option value="functional">Functional</option>
+                        <option value="material">Material</option>
+                        <option value="documentation">Documentation</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="status">Status:</label>
+                    <select id="status" required>
+                        <option value="open">Open</option>
+                        <option value="in_progress">In Progress</option>
+                        <option value="closed">Closed</option>
+                    </select>
+                </div>
+                <div class="form-actions">
+                    <button type="submit">Save Changes</button>
+                    <button type="button" onclick="cancelEdit()">Cancel</button>
+                </div>
+            </form>
+        </main>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Commented out the URL parameter verification and fetch logic
+            /*
+            const urlParams = new URLSearchParams(window.location.search);
+            const ncrId = urlParams.get('id');
+
+            if (ncrId) {
+                fetchNcrData(ncrId);
+            } else {
+                alert('No NCR ID provided');
+                window.location.href = 'view-ncrs.html';
+            }
+            */
+
+            document.getElementById('editNcrForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                saveNcrChanges();
+            });
+
+            // Directly calling fetchNcrData for mock data without checking URL parameter
+            fetchNcrData('mockId'); // Using a mock ID for now
+        });
+
+        function fetchNcrData(ncrId) {
+            // In a real application, you would fetch the NCR data from your backend
+            // For this example, we'll use mock data
+            const mockNcrData = {
+                number: ncrId,
+                date: '2023-05-01',
+                defectType: 'dimensional',
+                status: 'open'
+            };
+
+            document.getElementById('ncrNumber').value = mockNcrData.number;
+            document.getElementById('date').value = mockNcrData.date;
+            document.getElementById('defectType').value = mockNcrData.defectType;
+            document.getElementById('status').value = mockNcrData.status;
+        }
+
+        function saveNcrChanges() {
+            const formData = {
+                number: document.getElementById('ncrNumber').value,
+                date: document.getElementById('date').value,
+                defectType: document.getElementById('defectType').value,
+                status: document.getElementById('status').value
+            };
+
+            // In a real application, you would send this data to your backend
+            console.log('Saving NCR changes:', formData);
+            alert('Changes saved successfully!');
+            window.location.href = 'view-ncrs.html';
+        }
+
+        function cancelEdit() {
+            window.location.href = 'view-ncrs.html';
+        }
+    </script>
+</body>
+</html>

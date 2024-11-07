@@ -1,0 +1,199 @@
+:root {
+    --primary-color: #2c3e50;
+    --secondary-color: #3498db;
+    --background-color: #f8f9fa;
+    --border-color: #e9ecef;
+    --success-color: #2ecc71;
+    --error-color: #e74c3c;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.6;
+    background-color: var(--background-color);
+    color: var(--primary-color);
+    padding: 20px;
+}
+
+.c-content {
+    flex: 1;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+.container {
+    max-width: 1000px;
+    margin: 0 auto;
+    background: white;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0,0,0,0.1);
+}
+
+.header {
+    background-color: var(--primary-color);
+    color: white;
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+.form-section {
+    background: white;
+    margin-bottom: 25px;
+    padding: 20px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+}
+
+.form-row {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.form-section h3 {
+    color: var(--primary-color);
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid var(--secondary-color);
+}
+
+.form-group {
+    margin-bottom: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+}
+
+label {
+    font-weight: 600;
+    min-width: 200px;
+    color: var(--primary-color);
+}
+
+input[type="text"],
+input[type="number"],
+input[type="date"],
+textarea,
+select {
+    flex: 1;
+    min-width: 300px;
+    padding: 10px;
+    border: 2px solid var(--border-color);
+    border-radius: 6px;
+    font-size: 14px;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+select {
+    appearance: none;
+    background-position: calc(100% - 12px) center;
+    background-repeat: no-repeat;
+    padding-right: 35px;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+    outline: none;
+    border-color: var(--secondary-color);
+    box-shadow: 0 0 5px rgba(52, 152, 219, 0.3);
+}
+
+textarea {
+    min-height: 100px;
+    resize: vertical;
+}
+
+.checkbox-group {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.checkbox-item {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    accent-color: var(--secondary-color);
+}
+
+#ncrForm {
+    max-width: 1200px;
+    width: 100%;
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+button {
+    background-color: var(--secondary-color);
+    color: white;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    width: 100%;
+    margin-top: 20px;
+}
+
+button:hover {
+    background-color: #2980b9;
+    transform: scale(1.02);
+}
+
+button:focus {
+    outline: none;
+    background-color: #1f5f89;
+    box-shadow: 0 0 5px rgba(41, 128, 185, 0.5);
+}
+
+.required::after {
+    content: "*";
+    color: var(--error-color);
+    margin-left: 4px;
+}
+
+@media (max-width: 768px) {
+    .container {
+        padding: 15px;
+    }
+    
+    .form-group {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    label {
+        min-width: unset;
+    }
+
+    input[type="text"],
+    input[type="number"],
+    input[type="date"],
+    textarea,
+    select {
+        min-width: unset;
+    }
+}

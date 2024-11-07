@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NCR Management System Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+    <link rel="stylesheet" href="index.css">
+    <style>
+     
+</style>
+</head>
+<body>
+   
+            <div class="dashboard-container">
+                <nav class="sidebar">
+                    <div class="sidebar-header">
+                        <img src="Crossfire Logo - no bkgd.png" alt="NCR Management System Logo" class="logo">
+                        <h2>NCR Management</h2>
+                    </div>
+                    <ul class="sidebar-menu">
+                        <li class="active"><a href="#"><i class="fas fa-home"></i> Dashboard</a></li>
+                        <li><a href="create-ncr.html"><i class="fas fa-plus-circle"></i> Create NCR</a></li>
+                        <li><a href="view-ncrs.html"><i class="fas fa-list"></i> View NCRs</a></li>
+                    </ul>
+                </nav>
+                <main class="content">
+                    <header>
+                        <h1>NCR Management Dashboard</h1>
+                        <div class="user-info">
+                            <span id="user-name">Welcome, User</span>
+                            <img src="user-avatar.png" alt="User Avatar" class="avatar">
+                        </div>
+                    </header>
+                    <div class="dashboard-grid">
+                        <!-- Quick Actions Card -->
+                        <div class="card">
+                            <h3>Quick Actions</h3>
+                            <p>Take immediate action on your NCRs by creating new reports or reviewing existing ones. These quick links provide direct access to the tools you need for effective NCR management.</p>
+                            <button onclick="location.href='create-ncr.html'" class="action-button">
+                                <i class="fas fa-plus-circle"></i> Create NCR
+                            </button>
+                            <button onclick="location.href='view-ncrs.html'" class="action-button">
+                                <i class="fas fa-list"></i> View NCRs
+                            </button>
+                        </div>
+            
+                        <!-- NCR Statistics Card -->
+                        <div class="card">
+                            <h3>NCR Statistics</h3>
+                            <p>Track the number of open, closed, and in-progress NCRs for better operational control.</p>
+                            <div class="stat">
+                                <span class="stat-value">25</span>
+                                <span class="stat-label">Open NCRs</span>
+                            </div>
+                            <div class="stat">
+                                <span class="stat-value">12</span>
+                                <span class="stat-label">Closed This Week</span>
+                                
+                            </div>
+                        
+                        </div>
+            
+                        <!-- Recent NCRs Card -->
+                        <div class="card">
+                            <h3>Recent NCRs</h3>
+                            <p>Stay updated with the most recent NCRs in the system. These represent the latest quality issues or operational discrepancies that need to be monitored or addressed.</p>
+                            <ul class="recent-list">
+                                <li><strong>NCR-2023-001:</strong> Product Defect - A critical defect discovered in the manufacturing line.</li>
+                                <li><strong>NCR-2023-002:</strong> Process Deviation - Deviation from standard operating procedure during quality checks.</li>
+                                <li><strong>NCR-2023-003:</strong> Documentation Error - Incorrect documentation affecting production workflow.</li>
+                            </ul>
+                        </div>
+            
+                        <!-- NCR by Department Card with Chart -->
+                        <div class="card">
+                            <h3>NCR by Department</h3>
+                            <p>Visualize the distribution of NCRs across different departments. This pie chart helps to identify where the majority of quality issues are occurring, enabling targeted improvements.</p>
+                            <img src="images/image1.jpg" alt="NCR by Department" class="department-image">
+                            <canvas id="departmentChart"></canvas>
+                        </div>
+                    </div>
+                </main>
+            </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="app.js"></script>
+
+    <!-- Add JavaScript code to auto-generate NCR number -->
+    <script>
+        // Function to auto-generate an NCR number
+        function generateNCRNumber() {
+            let ncrNumber = localStorage.getItem('ncrNumber');
+            
+            if (!ncrNumber) {
+                ncrNumber = 1001; // Starting point for the sequence
+            } else {
+                ncrNumber = parseInt(ncrNumber) + 1; // Increment the previous number
+            }
+            
+            localStorage.setItem('ncrNumber', ncrNumber); // Store the updated number
+            document.getElementById('ncrNo').value = ncrNumber; // Set the NCR number in the input field
+        }
+
+        // Document ready event
+        document.addEventListener('DOMContentLoaded', function() {
+            // Auto-generate NCR number on page load
+            generateNCRNumber();
+
+            // Load saved data when the page loads
+            loadSavedData();
+            
+            const ncrForm = document.getElementById('ncrForm');
+            ncrForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // Collect form data
+                saveFormData();
+
+                // Reset form if needed
+                ncrForm.reset();
+                
+                // Generate a new NCR number after submission
+                generateNCRNumber();
+            });
+        });
+
+        // Load saved form data from localStorage (if needed)
+        function loadSavedData() {
+            const savedData = localStorage.getItem('ncrFormData');
+            if (savedData) {
+                const formData = JSON.parse(savedData);
+                for (const key in formData) {
+                    const input = document.querySelector(`[name="${key}"]`);
+                    if (input) {
+                        input.value = formData[key];
+                    }
+                }
+            }
+        }
+
+        // Save form data to localStorage (if needed)
+        function saveFormData() {
+            const formData = new FormData(document.getElementById('ncrForm'));
+            const ncrData = Object.fromEntries(formData.entries());
+            localStorage.setItem('ncrFormData', JSON.stringify(ncrData));
+        }
+    </script>
+    
+</body>
+</html>
